@@ -1,7 +1,7 @@
 ---
 title: "Lab 2 Homework"
 author: "Maggie Bauer"
-date: "2022-01-11"
+date: "2022-01-12"
 output:
   html_document: 
     theme: spacelab
@@ -179,6 +179,6 @@ getwd()
 ```
 
 ```
-## [1] "/Users/maggiebauer/Downloads/Untitled/BIS15W2022_mbauer/lab2"
+## [1] "/Users/maggiebauer/Desktop/Untitled/BIS15W2022_mbauer/lab2"
 ```
 
