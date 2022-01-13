@@ -164,6 +164,10 @@ mean(x)
 write.csv(hsprings, "data/hsprings_data.csv", row.names = FALSE)
 ```
 
-## That's it! Take a break and I will see you on Zoom!  
+## That's it! Take a break and I will see you on Zoom!  oooo
 
 -->[Home](https://jmledford3115.github.io/datascibiol/)  
+```{r}
+getwd()
+```
+
