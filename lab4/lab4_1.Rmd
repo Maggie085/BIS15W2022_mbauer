@@ -55,9 +55,9 @@ The [tidyverse](www.tidyverse.org) is an "opinionated" collection of packages th
 
 ## dplyr
 The first package that we will use that is part of the tidyverse is `dplyr`. `dplyr` is used to transform data frames by extracting, rearranging, and summarizing data such that they are focused on a question of interest. This is very helpful,  especially when wrangling large data, and makes dplyr one of most frequently used packages in the tidyverse. The two functions we will use most are `select()` and `filter()`.  
-
+Chop up data frames to focus on question of interest 
 ## `select()`
-Select allows you to pull out columns of interest from a dataframe. To do this, just add the names of the columns to the `select()` command. The order in which you add them, will determine the order in which they appear in the output.
+Select allows you to pull out columns (variables) of interest from a dataframe. To do this, just add the names of the columns to the `select()` command. The order in which you add them, will determine the order in which they appear in the output.
 ```{r}
 names(fish)
 ```
@@ -66,7 +66,7 @@ We are only interested in lakeid and scalelength.
 ```{r}
 select(fish, "lakeid", "scalelength")
 ```
-
+end up with a data frame that only has those variables 
 To add a range of columns use `start_col:end_col`.
 ```{r}
 fish
@@ -75,7 +75,7 @@ fish
 ```{r}
 select(fish, fish_id:length)
 ```
-
+variables from fish_id to length
 The - operator is useful in select. It allows us to select everything except the specified variables.
 ```{r}
 select(fish, -fish_id, -annnumber, -length, -radii_length_mm)
@@ -86,7 +86,7 @@ For very large data frames with lots of variables, `select()` utilizes lots of d
 ```{r}
 names(fish)
 ```
-
+Only see colums that contain the word length
 ```{r}
 select(fish, contains("length"))
 ```
@@ -124,6 +124,7 @@ You can also select columns based on the class of data.
 glimpse(fish)
 ```
 
+look for where it is numeric <dbl>- a particular class of data
 ```{r}
 select_if(fish, is.numeric)
 ```
@@ -142,42 +143,62 @@ mammals <- readr::read_csv("data/mammal_lifehistories_v2.csv")
 
 1. Use one or more of your favorite functions to assess the structure of the data.  
 ```{r}
-
+glimpse(mammals)
+```
+```{r}
+names(mammals)
 ```
 
 2. Are there any NAs? Are you sure? Try taking an average of `max. life` as a test.  
 ```{r}
-
+is.na(mammals)
 ```
-
+no NA 
+```{r}
+x <- mammals[ 11]
+colMeans(x)
+```
+```{r}
+anyNA(mammals)
+```
+```{r}
+summary(mammals)
+```
+-999=NA- don't ever record NA as a number 
+uncommon for there to be no NAs at all 
 3. What are the names of the columns in the `mammals` data?
 ```{r}
-
+names(mammals)
 ```
 
 4. Rename any columns that have capitol letters or punctuation issues.  
 ```{r}
-
+mammals_new <- rename(mammals, genus="Genus", wean_mass="wean mass",max_life="max. life", litter_size="litter size", litters_per_year="litters/year")
+mammals_new
 ```
 
 5. We are only interested in the variables `genus`, `species`, and `mass`. Use `select()` to build a new dataframe `mass` focused on these variables.
 ```{r}
-
+mass <- select(mammals_new, "genus","species","mass")
+mass
+```
+```{r}
+select(mammals_new, "species","genus","mass")
 ```
 
 6. What if we only wanted to exclude `order` and `family`? Use the `-` operator to make the code efficient.
 ```{r}
-
+select(mammals_new, -order, -family)
 ```
 
 7. Select the columns that include "mass" as part of the name.  
 ```{r}
-
+select(mammals_new, contains("mass"))
 ```
 
 8. Select all of the columns that are of class `character`.  
 ```{r}
-
+select_if(mammals_new, ~is.character(.))
 ```
 
 ## Other
@@ -185,12 +206,19 @@ Here are two examples of code that are super helpful to have in your bag of tric
 
 Imported data frames often have a mix of lower and uppercase column names. Use `toupper()` or `tolower()` to fix this issue. I always try to use lowercase to keep things consistent.  
 ```{r}
-#mammals <- select_all(mammals, tolower)
+mammals <- select_all(mammals, tolower)
+mammals
+```
+```{r}
+names(mammals)
 ```
 
 When naming columns, blank spaces are often added (don't do this, please). Here is a trick to remove these.  
 ```{r}
-#select_all(mammals, ~str_replace(., " ", "_"))
+select_all(mammals, ~str_replace(., " ", "_"))
+```
+```{r}
+names(mammals)
 ```
 
 ## That's it! Take a break and I will see you on Zoom!  
