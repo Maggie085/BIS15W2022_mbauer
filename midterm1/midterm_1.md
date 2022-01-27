@@ -1,7 +1,7 @@
 ---
 title: "Midterm 1"
 author: "Maggie Bauer"
-date: "2022-01-26"
+date: "2022-01-27"
 output:
   html_document: 
     theme: spacelab
@@ -531,7 +531,7 @@ Higher mammal diversity
 
 ```r
 transect %>% 
-  filter(Distance < 25) %>% 
+  filter(Distance > 25) %>% 
   summarize(across(c(RA_Apes, RA_Birds, RA_Elephant, RA_Monkeys, RA_Rodent, RA_Ungulate), mean))
 ```
 
@@ -539,7 +539,7 @@ transect %>%
 ## # A tibble: 1 × 6
 ##   RA_Apes RA_Birds RA_Elephant RA_Monkeys RA_Rodent RA_Ungulate
 ##     <dbl>    <dbl>       <dbl>      <dbl>     <dbl>       <dbl>
-## 1    1.92     59.8       0.569       30.3      3.36        3.99
+## 1    4.91     31.6           0       54.1      1.29        8.12
 ```
 
 12. (4 points) Based on your interest, do one exploratory analysis on the `gabon` data of your choice. This analysis needs to include a minimum of two functions in `dplyr.`

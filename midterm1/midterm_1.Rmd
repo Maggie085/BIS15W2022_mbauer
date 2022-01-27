@@ -185,7 +185,7 @@ Higher mammal diversity
 
 ```{r}
 transect %>% 
-  filter(Distance < 25) %>% 
+  filter(Distance > 25) %>% 
   summarize(across(c(RA_Apes, RA_Birds, RA_Elephant, RA_Monkeys, RA_Rodent, RA_Ungulate), mean))
 ```
 
