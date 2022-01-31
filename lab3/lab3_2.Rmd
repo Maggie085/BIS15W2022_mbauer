@@ -2,10 +2,11 @@
 title: "Importing Data Frames"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  html_document: 
     theme: spacelab
     toc: yes
     toc_float: yes
+    keep_md: yes
   pdf_document:
     toc: yes
 ---
@@ -173,12 +174,20 @@ str(mammals)
 ```
 
 ```{r}
-
+glimpse(mammals)
 ```
 
 5. . Try the `table()` command to produce counts of mammal order, family, and genus.  
 ```{r}
-#table(mammals)
+table(mammals$order)
+```
+```{r}
+table(mammals$family)
+
+```
+```{r}
+table(mammals$Genus)
+
 ```
 
 ## Wrap-up
