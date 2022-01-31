@@ -77,13 +77,13 @@ amphibio %>%
 
 **5. Make any necessary replacements in the data such that all NA's appear as "NA".**   
 ```{r}
-amniota_NA <- amniota %>% 
+amniota_na <- amniota %>% 
   na_if("-999")
 ```
 
 **6. Use the package `naniar` to produce a summary, including percentages, of missing data in each column for the `amniota` data.**  
 ```{r}
-naniar::miss_var_summary(amniota_NA)
+naniar::miss_var_summary(amniota_na)
 ```
 
 **7. Use the package `naniar` to produce a summary, including percentages, of missing data in each column for the `amphibio` data.**
@@ -93,7 +93,7 @@ naniar::miss_var_summary(amphibio)
 
 **8. For the `amniota` data, calculate the number of NAs in the `egg_mass_g` column sorted by taxonomic class; i.e. how many NA's are present in the `egg_mass_g` column in birds, mammals, and reptiles? Does this results make sense biologically? How do these results affect your interpretation of NA's?**  
 ```{r}
-amniota_NA %>%
+amniota_na %>%
   group_by(class) %>%
   select(class, egg_mass_g) %>% 
   naniar::miss_var_summary(class=T)
