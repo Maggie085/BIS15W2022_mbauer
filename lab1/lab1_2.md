@@ -1,6 +1,6 @@
 ---
 title: "R, RStudio, and RMarkdown"
-date: "`r Sys.Date()`"
+date: "2022-01-30"
 output:
   html_document: 
     theme: spacelab
@@ -24,15 +24,25 @@ When you first open RStudio, you should see your screen divided into four quadra
 Before you begin any project in RStudio, it is important that you are in the correct "working directory". This is the folder on your computer where you are currently working; it is the location where RStudio will save all of your work. At first, most of the problems people encounter are because they are not in the correct working directory.  
 
 Run the following code by clicking the small green arrow to check your current working directory.  
-```{r}
+
+```r
 getwd()
+```
+
+```
+## [1] "/Users/maggiebauer/Downloads/Untitled/BIS15W2022_mbauer/lab1"
 ```
 
 If you are not in the **lab 1 folder**, please navigate to it: Session>Set Working Directory>Choose Directory>Desktop>lab1.  
 
 Re-run the code below to confirm.
-```{r}
+
+```r
 getwd()
+```
+
+```
+## [1] "/Users/maggiebauer/Downloads/Untitled/BIS15W2022_mbauer/lab1"
 ```
 
 ## R  
@@ -40,30 +50,51 @@ Double click to open R (not RStudio) and find the carrot `>`. This is where comm
 
 ## Arithmetic  
 You can use R as a calculator; just enter the expression and press return.  Experiment by evaluating the following expression.
-```{r}
+
+```r
 4*12
 ```
 
+```
+## [1] 48
+```
+
 Order of operations applies and you don't need to add an '=' sign.
-```{r}
+
+```r
 (4*12)/2
+```
+
+```
+## [1] 24
 ```
 
 Statistics are what R was originally written for and there are thousands of packages for specialized statistics depending on your needs.  
 
 First, we need to make a vector or string of values which we will store as an object x. More on this later...
-```{r}
+
+```r
 x <- c(4, 6, 8, 5, 6, 7, 7, 7)
 ```
 
 Now we can calculate the mean of object x.  
-```{r}
+
+```r
 mean(x)
 ```
 
+```
+## [1] 6.25
+```
+
 We can do the same thing for median.  
-```{r}
+
+```r
 median(x)
+```
+
+```
+## [1] 6.5
 ```
 
 ## RMarkdown  
@@ -100,15 +131,36 @@ In order to make the html file, you need to "Knit" the file. Knitting just means
 2. Go back to your "RMarkdown Practice" file and experiment with titles, text, and syntax.  
 3. Copy and paste the following two pieces of code into the document (include the gray code "chunks").      
 
-```{r}
+
+```r
 #install.packages("tidyverse")
 library("tidyverse")
 ```
 
-```{r}
+```
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
+```
+
+```
+## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.6     ✓ dplyr   1.0.7
+## ✓ tidyr   1.1.4     ✓ stringr 1.4.0
+## ✓ readr   2.1.1     ✓ forcats 0.5.1
+```
+
+```
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+```
+
+
+```r
 ggplot(mtcars, aes(x = factor(cyl))) +
     geom_bar()
 ```
+
+![](lab1_2_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 4. Now `knit` the file to html using the knit button at the top of the page.  
 5. Lastly, commit and push this file to your GitHub repository.  
