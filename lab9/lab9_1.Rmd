@@ -2,10 +2,11 @@
 title: "Data Visualization: `ggplot` part 1"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  html_document: 
     theme: spacelab
     toc: yes
     toc_float: yes
+    keep_md: yes
   pdf_document:
     toc: yes
 ---
@@ -77,11 +78,10 @@ ggplot(data=iris, mapping=aes(x=Species, y=Petal.Length))+geom_boxplot()
 ## Practice
 1. Use the iris data to build a scatterplot that compares sepal length vs. sepal width. Use the cheat sheet or help to find the correct `geom_` for a scatterplot.
 ```{r}
-
+ggplot(data=iris, mapping=aes(x=Sepal.Width, y=Petal.Length))+ geom_point()
 ```
-
 ```{r}
-
+ggplot(data=iris, mapping=aes(x=Sepal.Width, y=Petal.Length))+ geom_point()
 ```
 
 
@@ -99,11 +99,15 @@ homerange <- read_csv(here("lab9", "data", "Tamburelloetal_HomeRangeDatabase.csv
 ## Practice
 1. What is the structure of the `homerange` data? Does it have any NA's? Is it tidy? Do a quick exploratory analysis of your choice below.
 ```{r}
-
+glimpse(homerange)
 ```
 
 ```{r}
-
+homerange %>% 
+  summarise_all(~(sum(is.na(.))))
+```
+```{r}
+naniar::miss_var_summary(homerange)
 ```
 
 
@@ -135,12 +139,14 @@ ggplot(data=homerange, mapping=aes(x=log10.mass, y=log10.hra)) +
 ### Practice
 1. What is the relationship between log10.hra and log10.preymass? What do you notice about how ggplot treats NA's?
 ```{r}
-
+ggplot(data = homerange, mapping = aes(x = log10.preymass, y = log10.hra)) + geom_point()+
+  geom_smooth(method=lm, se=T)
 ```
+Positive relationship and NAs are left out 
+to remove NA 
 
-```{r}
+geom_point(na.rm=T)
 
-```
 
 ### Bar Plot: `geom_bar()`
 The simplest type of bar plot counts the number of observations in a categorical variable. In this case, we want to know how many observations are present in the variable `trophic.guild`. Notice that we do not specify a y-axis because it is count by default.  
@@ -161,7 +167,7 @@ homerange %>%
   geom_bar()
 ```
 
-### Bar Plot: `geom_col()`
+### Bar Plot: `geom_col()`- produces the same graph just gives names instead of #
 Unlike `geom_bar()`, `geom_col()` allows us to specify an x-axis and a y-axis.
 ```{r}
 homerange %>% 
@@ -169,6 +175,7 @@ homerange %>%
   ggplot(aes(x=common.name, y=log10.mass))+
   geom_col()
 ```
+can also use select to narrow down variables
 
 `geom_bar()` with `stat="identity"`
 `stat="identity"` allows us to map a variable to the y-axis so that we aren't restricted to counts.
@@ -191,7 +198,8 @@ homerange %>%
 ## Practice
 1. Filter the `homerange` data to include `mammals` only.
 ```{r}
-
+homrange_mammals <- filter(homerange, taxon == "mammals")
+homrange_mammals
 ```
 
 ```{r}
@@ -205,7 +213,11 @@ homerange %>%
 
 2. Are there more herbivores or carnivores in mammals? Make a bar plot that shows their relative numbers.
 ```{r}
-
+homrange_mammals %>% 
+  group_by(trophic.guild) %>% 
+  ggplot(aes(x=trophic.guild, y=N))+
+  geom_col()
+  
 ```
 
 ```{r}
@@ -215,7 +227,12 @@ homerange %>%
 
 3. Make a bar plot that shows the masses of the top 10 smallest mammals.
 ```{r}
-
+homrange_mammals %>% 
+  top_n(-10,log10.mass) %>% 
+  ggplot(aes(x=common.name, y=log10.mass))+
+  geom_col()+
+  coord_flip()
+  
 ```
 
 ```{r}
