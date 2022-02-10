@@ -1,7 +1,7 @@
 ---
 title: "Lab 9 Homework"
 author: "Please Add Your Name Here"
-date: "2022-02-07"
+date: "2022-02-10"
 output:
   html_document: 
     theme: spacelab
@@ -276,7 +276,7 @@ uc_college
 ## 10 University… San … CA     9414…   NA          NA NA           NA        NA    
 ## # … with 1 more variable: pftftug1_ef <dbl>
 ```
-
+., = check every cell
 
 Remove `Hastings College of Law` and `UC San Francisco` and store the final data frame as a new object `univ_calif_final`.
 
