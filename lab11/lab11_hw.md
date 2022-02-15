@@ -110,6 +110,25 @@ gapminder %>%
 
 ![](lab11_hw_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
+```r
+gapminder %>% 
+  group_by(continent) %>% 
+  summarize(mean_lifeExp=mean(lifeExp),
+            min_lifeExp=min(lifeExp),
+            max_lifeExp=max(lifeExp))
+```
+
+```
+## # A tibble: 5 × 4
+##   continent mean_lifeExp min_lifeExp max_lifeExp
+##   <fct>            <dbl>       <dbl>       <dbl>
+## 1 Africa            48.9        23.6        76.4
+## 2 Americas          64.7        37.6        80.7
+## 3 Asia              60.1        28.8        82.6
+## 4 Europe            71.9        43.6        81.8
+## 5 Oceania           74.3        69.1        81.2
+```
+
 **5. How has life expectancy changed between 1952-2007 for each continent?**
 
 ```r
@@ -125,7 +144,7 @@ gapminder %>%
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](lab11_hw_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](lab11_hw_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 **6. We are interested in the relationship between per capita GDP and life expectancy; i.e. does having more money help you live longer?**
 
@@ -138,36 +157,36 @@ gapminder %>%
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 
-![](lab11_hw_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](lab11_hw_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 Positive relation- yes having more morey does help you live longer 
 **7. Which countries have had the largest population growth since 1952?**
 
 ```r
 gapminder %>% 
+  select(country, year, pop) %>% 
+  filter(year == "1952" | year == "2007" ) %>% 
   pivot_wider(names_from = "year",
               names_prefix = "p",
               values_from = "pop") %>% 
-  mutate(difference=p1952- p2007, na.rm=T) %>% 
+  mutate(difference=p2007-p1952) %>% 
   arrange(difference)
 ```
 
 ```
-## # A tibble: 1,704 × 18
-##    country   continent lifeExp gdpPercap   p1952   p1957   p1962   p1967   p1972
-##    <fct>     <fct>       <dbl>     <dbl>   <int>   <int>   <int>   <int>   <int>
-##  1 Afghanis… Asia         28.8      779. 8425333      NA NA      NA      NA     
-##  2 Afghanis… Asia         30.3      821.      NA 9240934 NA      NA      NA     
-##  3 Afghanis… Asia         32.0      853.      NA      NA  1.03e7 NA      NA     
-##  4 Afghanis… Asia         34.0      836.      NA      NA NA       1.15e7 NA     
-##  5 Afghanis… Asia         36.1      740.      NA      NA NA      NA       1.31e7
-##  6 Afghanis… Asia         38.4      786.      NA      NA NA      NA      NA     
-##  7 Afghanis… Asia         39.9      978.      NA      NA NA      NA      NA     
-##  8 Afghanis… Asia         40.8      852.      NA      NA NA      NA      NA     
-##  9 Afghanis… Asia         41.7      649.      NA      NA NA      NA      NA     
-## 10 Afghanis… Asia         41.8      635.      NA      NA NA      NA      NA     
-## # … with 1,694 more rows, and 9 more variables: p1977 <int>, p1982 <int>,
-## #   p1987 <int>, p1992 <int>, p1997 <int>, p2002 <int>, p2007 <int>,
-## #   difference <int>, na.rm <lgl>
+## # A tibble: 142 × 4
+##    country                 p1952   p2007 difference
+##    <fct>                   <int>   <int>      <int>
+##  1 Bulgaria              7274900 7322858      47958
+##  2 Sao Tome and Principe   60011  199579     139568
+##  3 Iceland                147962  301931     153969
+##  4 Montenegro             413834  684736     270902
+##  5 Equatorial Guinea      216964  551201     334237
+##  6 Trinidad and Tobago    662850 1056608     393758
+##  7 Djibouti                63149  496374     433225
+##  8 Hungary               9504000 9956108     452108
+##  9 Slovenia              1489518 2009245     519727
+## 10 Reunion                257700  798094     540394
+## # … with 132 more rows
 ```
 
 
@@ -200,20 +219,63 @@ gapminder %>%
 **8. Use your results from the question above to plot population growth for the top five countries since 1952.**
 
 ```r
-gapminder %>% 
-   ggplot(aes(x=country, y=pop)) + geom_point(na.rm=T)+coord_flip()
+gapminder_top <- gapminder %>% 
+  filter(country == "China"| country == "India"| country == "United States"| country == "Indonesia"|country == "Brazil") %>% 
+    select(country, year, pop) %>% 
+  filter(year == "1952" | year == "2007" ) %>% 
+  pivot_wider(names_from = "year",
+              names_prefix = "p",
+              values_from = "pop") %>% 
+  mutate(difference=p2007-p1952) 
+
+gapminder_top
 ```
 
-![](lab11_hw_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+```
+## # A tibble: 5 × 4
+##   country           p1952      p2007 difference
+##   <fct>             <int>      <int>      <int>
+## 1 Brazil         56602560  190010647  133408087
+## 2 China         556263527 1318683096  762419569
+## 3 India         372000000 1110396331  738396331
+## 4 Indonesia      82052000  223547000  141495000
+## 5 United States 157553000  301139947  143586947
+```
+
+
+```r
+gapminder_top %>% 
+   ggplot(aes(x=country, y=difference)) + geom_point(na.rm=T)+coord_flip()
+```
+
+![](lab11_hw_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 **9. How does per-capita GDP growth compare between these same five countries?**
 
 ```r
 gapminder %>% 
-   ggplot(aes(x=country, y=gdpPercap)) + geom_point(na.rm=T)+coord_flip()
+  select(country, gdpPercap) %>% 
+  filter(country == "China"| country == "India"| country == "United States"| country == "Indonesia"|country == "Brazil") %>% 
+  mutate(mean_gdpPercap=mean(gdpPercap)) %>% 
+   ggplot(aes(x=country, y=mean_gdpPercap)) + geom_point(na.rm=T)+coord_flip()
 ```
 
-![](lab11_hw_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](lab11_hw_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+
+```r
+glimpse(gapminder)
+```
+
+```
+## Rows: 1,704
+## Columns: 6
+## $ country   <fct> "Afghanistan", "Afghanistan", "Afghanistan", "Afghanistan", …
+## $ continent <fct> Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, …
+## $ year      <int> 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, …
+## $ lifeExp   <dbl> 28.801, 30.332, 31.997, 34.020, 36.088, 38.438, 39.854, 40.8…
+## $ pop       <int> 8425333, 9240934, 10267083, 11537966, 13079460, 14880372, 12…
+## $ gdpPercap <dbl> 779.4453, 820.8530, 853.1007, 836.1971, 739.9811, 786.1134, …
+```
 
 **10. Make one plot of your choice that uses faceting!**
 

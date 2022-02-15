@@ -72,6 +72,13 @@ gapminder %>%
   ggplot(aes(x=continent, y=lifeExp)) +
   geom_boxplot() + coord_flip()
 ```
+```{r}
+gapminder %>% 
+  group_by(continent) %>% 
+  summarize(mean_lifeExp=mean(lifeExp),
+            min_lifeExp=min(lifeExp),
+            max_lifeExp=max(lifeExp))
+```
 
 **5. How has life expectancy changed between 1952-2007 for each continent?**
 ```{r}
@@ -90,13 +97,13 @@ Positive relation- yes having more morey does help you live longer
 **7. Which countries have had the largest population growth since 1952?**
 ```{r}
 gapminder %>% 
+  select(country, year, pop) %>% 
+  filter(year == "1952" | year == "2007" ) %>% 
   pivot_wider(names_from = "year",
               names_prefix = "p",
               values_from = "pop") %>% 
-  mutate(difference=p1952- p2007, na.rm=T) %>% 
+  mutate(difference=p2007-p1952) %>% 
   arrange(difference)
-  
-  
 ```
 
 
@@ -109,14 +116,34 @@ gapminder %>%
 
 **8. Use your results from the question above to plot population growth for the top five countries since 1952.**
 ```{r}
-gapminder %>% 
-   ggplot(aes(x=country, y=pop)) + geom_point(na.rm=T)+coord_flip()
+gapminder_top <- gapminder %>% 
+  filter(country == "China"| country == "India"| country == "United States"| country == "Indonesia"|country == "Brazil") %>% 
+    select(country, year, pop) %>% 
+  filter(year == "1952" | year == "2007" ) %>% 
+  pivot_wider(names_from = "year",
+              names_prefix = "p",
+              values_from = "pop") %>% 
+  mutate(difference=p2007-p1952) 
+
+gapminder_top
+```
+
+```{r}
+gapminder_top %>% 
+   ggplot(aes(x=country, y=difference)) + geom_point(na.rm=T)+coord_flip()
 ```
 
 **9. How does per-capita GDP growth compare between these same five countries?**
 ```{r}
 gapminder %>% 
-   ggplot(aes(x=country, y=gdpPercap)) + geom_point(na.rm=T)+coord_flip()
+  select(country, gdpPercap) %>% 
+  filter(country == "China"| country == "India"| country == "United States"| country == "Indonesia"|country == "Brazil") %>% 
+  mutate(mean_gdpPercap=mean(gdpPercap)) %>% 
+   ggplot(aes(x=country, y=mean_gdpPercap)) + geom_point(na.rm=T)+coord_flip()
+
+```
+```{r}
+glimpse(gapminder)
 ```
 
 **10. Make one plot of your choice that uses faceting!**
