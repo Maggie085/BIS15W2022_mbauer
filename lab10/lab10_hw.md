@@ -1,7 +1,7 @@
 ---
 title: "Lab 10 Homework"
 author: "Maggie Bauer"
-date: "2022-02-09"
+date: "2022-02-17"
 output:
   html_document: 
     theme: spacelab
@@ -504,7 +504,8 @@ deserts %>%
 ```
 
 ```
-## `summarise()` has grouped output by 'species'. You can override using the `.groups` argument.
+## `summarise()` has grouped output by 'species'. You can override using the
+## `.groups` argument.
 ## `geom_smooth()` using formula 'y ~ x'
 ```
 

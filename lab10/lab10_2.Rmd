@@ -153,7 +153,6 @@ penguins %>%
   count(island)
 ```
 
-Don't do any
 ## Using `group`
 In addition to `fill`, `group` is an aesthetic that accomplishes the same function but does not add color.
 
@@ -170,14 +169,14 @@ homerange %>%
   ggplot(aes(x = class, y = log10.mass, group = taxon)) +
   geom_boxplot()
 ```
-
+end up with groups but no keys 
 I can also use `fill` to associate the different taxa with a color coded key.
 ```{r}
 homerange %>% 
   ggplot(aes(x = class, y = log10.mass, fill = taxon)) +
   geom_boxplot()
 ```
-
+color- just edges of the plot 
 ## That's it, let's take a break!   
 
 -->[Home](https://jmledford3115.github.io/datascibiol/)
