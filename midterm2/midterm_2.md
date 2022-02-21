@@ -1332,7 +1332,7 @@ life_exp_top %>%
 ```
 
 ![](midterm_2_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
-
+This trend could be due to advancements in healthcare practices leading to increases in life expectancy. 
 
 ## Population Growth
 6. (3 points) Which 5 countries have had the highest population growth over the past 100 years (1920-2020)?  
@@ -1534,7 +1534,7 @@ top_gdp %>%
 ```
 
 ![](midterm_2_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
-
+Economic downturn for the wealthiest countries could be due to the economic recession of the 1980s. 
 9. (3 points) Create three new objects that restrict each data set (life expectancy, population, income) to the years 1920-2020. Hint: I suggest doing this with the long form of your data. Once this is done, merge all three data sets using the code I provide below. You may need to adjust the code depending on how you have named your objects. I called mine `life_expectancy_100`, `population_100`, and `income_100`. For some of you, learning these `joins` will be important for your project.  
 
 
