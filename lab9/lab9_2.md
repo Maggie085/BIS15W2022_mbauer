@@ -199,13 +199,53 @@ homerange %>%
 2. Have a closer look at carnivorous mammals. Summarize and visualize the range of log10.mass by family.
 
 ```r
-carn_mammals <- filter(homerange, trophic.guild == "carnivore")
+carn_mammals <- filter(homerange, class == "mammalia", trophic.guild == "carnivore")
+```
+
+```r
+carn_mammals %>% 
+  group_by(family) %>% 
+  summarize(mean_mass=mean(log10.mass))
+```
+
+```
+## # A tibble: 18 × 2
+##    family          mean_mass
+##    <chr>               <dbl>
+##  1 canidae             3.73 
+##  2 chrysochloridae     2.00 
+##  3 cricetidae          1.39 
+##  4 dasyuridae          2.32 
+##  5 didelphidae         1.38 
+##  6 erinaceidae         2.69 
+##  7 eupleridae          3.98 
+##  8 felidae             4.16 
+##  9 herpestidae         3.16 
+## 10 hyanidae            4    
+## 11 macroscelididae     2.27 
+## 12 mustelidae          3.08 
+## 13 peramelidae         2.74 
+## 14 soricidae           0.882
+## 15 tachyglossidae      2.41 
+## 16 talpidae            1.90 
+## 17 ursidae             4.99 
+## 18 viverridae          3.49
 ```
 
 
 
 3. Now use a boxplot to visualize the range of body mass by family of mammalian carnivore.
 
+
+```r
+carn_mammals %>% 
+  select(family, trophic.guild, log10.mass) %>% 
+  ggplot(aes(x=family, y=log10.mass))+
+  geom_boxplot()+
+  coord_flip()
+```
+
+![](lab9_2_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 
 
