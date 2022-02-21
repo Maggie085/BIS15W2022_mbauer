@@ -1,6 +1,6 @@
 ---
 title: "Data Visualization: `ggplot` part 1"
-date: "2022-02-07"
+date: "2022-02-21"
 output:
   html_document: 
     theme: spacelab
@@ -417,7 +417,8 @@ homrange_mammals
 ```r
 homrange_mammals %>% 
   group_by(trophic.guild) %>% 
-  ggplot(aes(x=trophic.guild, y=N))+
+  count() %>% 
+  ggplot(aes(x=n, y=trophic.guild))+
   geom_col()
 ```
 
