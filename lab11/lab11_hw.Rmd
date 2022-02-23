@@ -147,6 +147,18 @@ glimpse(gapminder)
 ```
 
 **10. Make one plot of your choice that uses faceting!**
+```{r}
+gapminder %>% 
+  ggplot(aes(x=gdpPercap, y=pop, fill=country))+ 
+  geom_boxplot(alpha=0.4) + 
+  facet_wrap(~country, ncol=3)+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+  labs(title = "Population by GDP per Capita and Country",
+       x = NULL,
+       y = "Population",
+       fill = "Country")
+```
+```
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences. 
