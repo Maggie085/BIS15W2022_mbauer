@@ -2,10 +2,11 @@
 title: "Data Visualization: Venn Diagrams & Word Clouds"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  html_document: 
     theme: spacelab
     toc: yes
     toc_float: yes
+    keep_md: yes
   pdf_document:
     toc: yes
 ---
@@ -69,7 +70,7 @@ ggVennDiagram(fly_or_swim_list, category.names = c("Fly", "Swim"))
 ```
 
 Woah! an image!
-But its not that useful. Since we are pretty familiar with this data, we know that `locomotion` is one column, and each animal only has one entry for locomotion, which is probably their primary for of movement. This results in `Swim` and `Fly` being mutually exclusive. 
+But its not that useful-no overlap. Since we are pretty familiar with this data, we know that `locomotion` is one column, and each animal only has one entry for locomotion, which is probably their primary for of movement. This results in `Swim` and `Fly` being mutually exclusive. 
 
 
 So venn diagrams work best when asking questions **about data from 2 different columns**. 
@@ -79,7 +80,7 @@ Do they fly? Are they a bird?
 We can recycle the `flying_vec`
 Do they fly?
 ```{r}
-# flying_vec
+flying_vec
 ```
 
 Are they a bird?
@@ -107,7 +108,10 @@ homerange%>%
 
 what is the flying non-bird?
 ```{r}
-
+homerange%>%
+  filter(taxon != "birds")%>%
+  filter(locomotion == "flying")%>%
+  select(common.name)
 ```
 
 
@@ -194,6 +198,9 @@ ecto_vec<- homerange %>%
 ```{r}
 
 # Make the list of vectors:
+swim_carn_aqua_ecto_list <- list(swimming_vec, carni_vec, aqua_vec,ecto_vec)
+
+ggVennDiagram(swim_carn_aqua_ecto_list, category.names = c("Swimming", "Carnivore", "Aquatic","Ectotherm"))
 
 
 # Make the plot:
@@ -207,9 +214,13 @@ Use dplyr to determine which 20 animals from this plot are:
 - NOT Carnivores?
 
 ```{r}
-
+homerange%>%
+  filter(thermoregulation == "ectotherm") %>% 
+  filter(realm == "aquatic")%>%
+  filter(locomotion == "swimming")%>%
+  filter(trophic.guild != "carnivore")%>%
+  select(common.name)
 ```
-
 
 
 
@@ -248,11 +259,22 @@ If they dont fit, try tinkering the `scale_size_area(max_size =   )`
 
 make the count table:
 ```{r}
-
+hr_families_count <- homerange %>% 
+  filter(class=="reptilia") %>% 
+  count(family)
+hr_families_count
 ```
 
 
 make the plot:
 ```{r}
-
+hr_families_count %>% 
+ggplot(aes(
+  label = family, 
+  size = n,
+  color = family
+  )) +
+  geom_text_wordcloud() +
+  scale_size_area(max_size = 15) +
+  theme_minimal()
 ```
