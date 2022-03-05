@@ -82,12 +82,7 @@ penguins %>%
 It looks like there is kind of a non-normal shape in at least 2 islands- 
 this could be a difference in sex, so lets examine only females:
 ```{r}
-penguins %>% 
-  filter(sex == "female") %>% 
-  ggplot(aes(x = island, y = body_mass_g, fill = island)) +
-  geom_boxplot(color = "grey", alpha = .3, na.rm = TRUE) +
-  geom_violin(alpha = .5, na.rm = TRUE) +
-  coord_flip()
+
 ```
 Well that didnt really reveal the reason for the bimodal shape on Biscoe. 
 Let's try filling by species.
@@ -180,7 +175,7 @@ penguins %>%
   geom_tile(na.rm=T)+
   scale_fill_gradient2(low="green", mid = "white", high="red")
 ```
-
+Defalts to mean 
 
 
 

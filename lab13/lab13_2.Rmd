@@ -2,6 +2,8 @@
 title: "Intro to Shiny Part 2"
 date: "`r Sys.Date()`"
 output:
+  html_notebook: 
+    toc: yes
   html_document:
     theme: spacelab
     toc: yes
@@ -118,7 +120,7 @@ ui <- fluidPage(
               selected = "bill_length_mm"),
     selectInput("y", "Select Y Variable", choices = c("bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"),
               selected = "bill_depth_mm"),
-    sliderInput("fontsize", "Select the Font Size", min = 10, max = 24, value = 18, step = 1),
+    sliderInput("fontsize", "Select the Font Size", min = 2, max = 20, value = 18, step = 1),
     plotOutput("plot", width = "500px", height = "400px")
 )
 
@@ -305,7 +307,49 @@ server <- function(input, output, session) {
 
 shinyApp(ui, server)
 ```
+1. Start by loading and exploring the data.
+```{r}
+wolves <- read_csv("data/wolves_dataset.csv")
+```
 
+2. For the app, here is a faceted version of what we are looking for. We want the reactive part to be `pop` and you should use `shinydashboard`.
+```{r}
+wolves %>% 
+  filter(sex!="NA") %>% 
+  ggplot(aes(x=sex, fill=sex))+
+  geom_bar()+
+  facet_wrap(~pop)
+```
+
+```{r, eval=F, echo=T}
+ui <- dashboardPage(
+  dashboardHeader(title = "Wolves"),
+  dashboardSidebar(),
+  dashboardBody(
+  selectInput("x", "Select Population", choices = c("AK.PEN", "BAN.JAS", "BC", "DENALI","ELLES", "GTNP", "INT.AK", "MEXICAN", "MI", "MT", "N.NWT","ONT", "SE.AK", "SNF", "SS.NWT", "YNP", "YUCH"), selected = "AK.PEN"))
+server <- function(input, output, session) { 
+  output$plot <- renderPlot({
+  wolves %>% 
+  filter(sex !="NA") %>% 
+  filter(pop==input$x) %>% 
+  ggplot(aex_string(x="sex", fill="sex"))+geombar()
+  })
+  session$onSessionEnded(stopApp)
+}
+
+shinyApp(ui, server)
+
+
+ 
+```
+
+gabon %>% 
+  ggplot(aes_string(x = "Distance", y = input$x)) +
+  geom_point(size=4)+
+  geom_smooth(method=lm, se=T)+
+  scale_x_continuous(breaks=seq(0, 30, by = 5))+ theme_light(base_size = 18)
+  })
+  
 ## That's it, let's take a break!   
 
 -->[Home](https://jmledford3115.github.io/datascibiol/)
